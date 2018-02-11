@@ -1,7 +1,8 @@
 #include <WS2812FX.h>
 
-#define LED_COUNT 7
+#define LED_COUNT 12
 #define LED_PIN 2
+#define SWITCH_PIN 6
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -39,15 +40,15 @@ void setup() {
   ws2812fx.setSpeed(48000);
   ws2812fx.setMode(FX_MODE_RAINBOW);
 
-  pinMode(6, INPUT_PULLUP);
+  pinMode(SWITCH_PIN, INPUT_PULLUP);
   ws2812fx.start();
 }
 
 
 void loop() {
-  int reading = digitalRead(6);
+  int reading = digitalRead(SWITCH_PIN);
 
-  if (mode == 15) {
+  if (mode == 16) {
     mode = 0;
   }
 
@@ -169,7 +170,7 @@ void loop() {
 
   // Mode 13: Fire flicker
   if (mode == 13 && trigger) {
-    ws2812fx.setSpeed(2000);
+    ws2812fx.setSpeed(4000);
     ws2812fx.setColor(0xFF2D00);
     ws2812fx.setMode(FX_MODE_FIRE_FLICKER);
     trigger = false;
@@ -177,9 +178,17 @@ void loop() {
 
   // Mode 14: Fire flicker (intense)
   if (mode == 14 && trigger) {
-    ws2812fx.setSpeed(2000);
+    ws2812fx.setSpeed(3000);
     ws2812fx.setColor(0xFF7800);
     ws2812fx.setMode(FX_MODE_FIRE_FLICKER_INTENSE);
+    trigger = false;
+  }
+
+  // Mode 15: Running random
+  if (mode == 15 && trigger) {
+    ws2812fx.setSpeed(6000);
+    ws2812fx.setColor(0xFF7800);
+    ws2812fx.setMode(FX_MODE_RUNNING_RANDOM);
     trigger = false;
   }
 
